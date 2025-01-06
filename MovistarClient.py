@@ -24,7 +24,7 @@ class MovistarClient:
         for cookie in cookie_movistar:
             session_cookies += f"{cookie['name']}={cookie['value']};"
 
-        cfadmin = pickle.loads(open("cfadmin.pkl", "rb").read())
+        cfadmin = pickle.loads(open("cfadmin-movistar.pkl", "rb").read())
         return MoviCookies(session_cookies, cfadmin)
 
     async def get_client(self, async_client: AsyncClient, requestPayload: dict) -> Response:
@@ -43,13 +43,14 @@ class MovistarClient:
         requests = []
         for info in info_list:
             if info_type == 'id_number':
-                searchPayload = self._build_payload(
+                print('id_number', info)
+                searchPayload = self.__build_payload(
                     searchPayloadDict, id_number=info, id_rule=info_rule)
             elif info_type == 'phone_number':
-                searchPayload = self._build_payload(
+                searchPayload = self.__build_payload(
                     searchPayloadDict, phone_number=info, pn_rule=info_rule)
             elif info_type == 'name':
-                searchPayload = self._build_payload(
+                searchPayload = self.__build_payload(
                     searchPayloadDict, name=info, name_rule=info_rule)
             else:
                 raise ValueError(f"Invalid search type {info_type}")
@@ -86,8 +87,8 @@ class MovistarClient:
                     for custumer, context in zip(custumerId, contextId)]
         return await asyncio.gather(*requests)
 
-    def _build_payload(
-        self, decode_payload: dict,
+    def __build_payload(
+        self, decoded_payload: dict,
         phone_number: str = '',
             pn_rule: str = 'contiene',
             id_number: str = '',
@@ -133,5 +134,16 @@ class MovistarClient:
             searchCriteria_copy['values'] = [value['value']]
             searchCriterias.append(searchCriteria_copy)
 
-        decode_payload['requests'][0]['body']['requestParams']['SearchDescriptor']['searchCriterion'] = searchCriterias
-        return encode_payload(decode_payload)
+        requests = decoded_payload['requests']
+        request1 = requests[0]
+        reqbody = request1['body']
+        print(reqbody)
+        rqparams = reqbody['requestParams']
+        sdesc = rqparams['SearchDescriptor']
+        scriterion = sdesc['searchCriterion']
+
+        payloadcopy = decoded_payload.copy()
+
+        payloadcopy['requests'][0]['body']['requestParams']['SearchDescriptor']['searchCriterion'] = searchCriterias
+
+        return encode_payload(payloadcopy)
