@@ -2,6 +2,7 @@ from movi_payload_decode import decode_payload, encode_payload
 from httpx import AsyncClient, Response
 import asyncio
 import pickle
+import copy
 
 
 class MoviCookies:
@@ -24,7 +25,9 @@ class MovistarClient:
         for cookie in cookie_movistar:
             session_cookies += f"{cookie['name']}={cookie['value']};"
 
-        cfadmin = pickle.loads(open("cfadmin-movistar.pkl", "rb").read())
+        cfadmin = pickle.loads(
+            open("cfadmin-movistar.pkl", "rb").read())['cfadmin']
+
         return MoviCookies(session_cookies, cfadmin)
 
     async def get_client(self, async_client: AsyncClient, requestPayload: dict) -> Response:
@@ -42,20 +45,24 @@ class MovistarClient:
 
         requests = []
         for info in info_list:
+            print(info, info_type, info_rule)
             if info_type == 'id_number':
-                print('id_number', info)
                 searchPayloadItem = self.__build_payload(
-                    searchPayloadDict, id_number=info, id_rule=info_rule)
+                    searchPayloadDict.copy(), id_number=info, id_rule=info_rule)
+
             elif info_type == 'phone_number':
                 searchPayloadItem = self.__build_payload(
-                    searchPayloadDict, phone_number=info, pn_rule=info_rule)
+                    searchPayloadDict.copy(), phone_number=info, pn_rule=info_rule)
+
             elif info_type == 'name':
                 searchPayloadItem = self.__build_payload(
-                    searchPayloadDict, name=info, name_rule=info_rule)
+                    searchPayloadDict.copy(), name=info, name_rule=info_rule)
+
             else:
                 raise ValueError(f"Invalid search type {info_type}")
 
-            requests.append(self.get_client(async_client, searchPayloadItem))
+            requests.append(self.get_client(
+                async_client, copy.deepcopy(searchPayloadItem)))
 
         return await asyncio.gather(*requests)
 
@@ -77,7 +84,7 @@ class MovistarClient:
             'cfadmin': self.cfadmin,
         }
 
-        return await async_client.post(self.base_url + endpoint, headers=headers, json=payload)
+        return await async_client.post(self.base_url + endpoint, headers=str(headers), json=payload)
 
     async def get_lines_info(self, async_client: AsyncClient, custumerId: list, contextId: list) -> list[Response]:
         if len(custumerId) != len(contextId):
@@ -88,7 +95,7 @@ class MovistarClient:
         return await asyncio.gather(*requests)
 
     def __build_payload(
-        self, decoded_payload: dict,
+        self, payloadcopy: dict,
         phone_number: str = '',
             pn_rule: str = 'contiene',
             id_number: str = '',
@@ -134,8 +141,5 @@ class MovistarClient:
             searchCriteria_copy['values'] = [value['value']]
             searchCriterias.append(searchCriteria_copy)
 
-        payloadcopy = decoded_payload.copy()
-
         payloadcopy['requests'][0]['body']['requestParams']['SearchDescriptor']['searchCriterion'] = searchCriterias
-
-        return encode_payload(payloadcopy)
+        return payloadcopy
