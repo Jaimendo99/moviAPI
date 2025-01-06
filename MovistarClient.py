@@ -44,18 +44,18 @@ class MovistarClient:
         for info in info_list:
             if info_type == 'id_number':
                 print('id_number', info)
-                searchPayload = self.__build_payload(
+                searchPayloadItem = self.__build_payload(
                     searchPayloadDict, id_number=info, id_rule=info_rule)
             elif info_type == 'phone_number':
-                searchPayload = self.__build_payload(
+                searchPayloadItem = self.__build_payload(
                     searchPayloadDict, phone_number=info, pn_rule=info_rule)
             elif info_type == 'name':
-                searchPayload = self.__build_payload(
+                searchPayloadItem = self.__build_payload(
                     searchPayloadDict, name=info, name_rule=info_rule)
             else:
                 raise ValueError(f"Invalid search type {info_type}")
 
-            requests.append(self.get_client(async_client, searchPayloadDict))
+            requests.append(self.get_client(async_client, searchPayloadItem))
 
         return await asyncio.gather(*requests)
 
@@ -133,14 +133,6 @@ class MovistarClient:
             searchCriteria_copy['searchRule']['text'] = value['rule']
             searchCriteria_copy['values'] = [value['value']]
             searchCriterias.append(searchCriteria_copy)
-
-        requests = decoded_payload['requests']
-        request1 = requests[0]
-        reqbody = request1['body']
-        print(reqbody)
-        rqparams = reqbody['requestParams']
-        sdesc = rqparams['SearchDescriptor']
-        scriterion = sdesc['searchCriterion']
 
         payloadcopy = decoded_payload.copy()
 
