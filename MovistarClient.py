@@ -47,22 +47,22 @@ class MovistarClient:
         for info in info_list:
             print(info, info_type, info_rule)
             if info_type == 'id_number':
-                searchPayloadItem = self.__build_payload(
+                searchPayloadItem = self._build_payload(
                     searchPayloadDict.copy(), id_number=info, id_rule=info_rule)
 
             elif info_type == 'phone_number':
-                searchPayloadItem = self.__build_payload(
+                searchPayloadItem = self._build_payload(
                     searchPayloadDict.copy(), phone_number=info, pn_rule=info_rule)
 
             elif info_type == 'name':
-                searchPayloadItem = self.__build_payload(
+                searchPayloadItem = self._build_payload(
                     searchPayloadDict.copy(), name=info, name_rule=info_rule)
 
             else:
                 raise ValueError(f"Invalid search type {info_type}")
 
             requests.append(self.get_client(
-                async_client, copy.deepcopy(searchPayloadItem)))
+                async_client, encode_payload(copy.deepcopy(searchPayloadItem))))
 
         return await asyncio.gather(*requests)
 
@@ -84,7 +84,7 @@ class MovistarClient:
             'cfadmin': self.cfadmin,
         }
 
-        return await async_client.post(self.base_url + endpoint, headers=str(headers), json=payload)
+        return await async_client.post(self.base_url + endpoint, headers=headers, json=payload)
 
     async def get_lines_info(self, async_client: AsyncClient, custumerId: list, contextId: list) -> list[Response]:
         if len(custumerId) != len(contextId):
@@ -94,7 +94,15 @@ class MovistarClient:
                     for custumer, context in zip(custumerId, contextId)]
         return await asyncio.gather(*requests)
 
-    def __build_payload(
+    async def get_custumer_info(self, async_client: AsyncClient, cutumerId: str, requests:list[str]= ['portin','portout','hostorial']) -> Response:
+        endpoint = 'rest/UIPlugins/WidgetRequestProcessor/process'
+
+        pass
+        
+    def __build_custumer_payload(self, requests:list[str]= ['portin','portout','hostorial'])->str:
+        pass
+
+    def _build_payload(
         self, payloadcopy: dict,
         phone_number: str = '',
             pn_rule: str = 'contiene',
