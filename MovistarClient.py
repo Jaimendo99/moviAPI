@@ -94,13 +94,121 @@ class MovistarClient:
                     for custumer, context in zip(custumerId, contextId)]
         return await asyncio.gather(*requests)
 
-    async def get_custumer_info(self, async_client: AsyncClient, cutumerId: str, requests:list[str]= ['portin','portout','hostorial']) -> Response:
+    async def get_custumer_info(self, async_client: AsyncClient, custumerId: str, requests: list[str] = ['portin', 'portout', 'hostorial']) -> Response:
         endpoint = 'rest/UIPlugins/WidgetRequestProcessor/process'
+        headers = {
+            'Cookie': self.cookies,
+            'cfadmin': self.cfadmin,
+        }
+        payload = self.__build_custumer_payload(requests)
+        custumer_payload = payload.replace('@CUSTUMERID@', custumerId)
 
+        return await async_client.post(self.base_url + endpoint, headers=headers, data=custumer_payload)
+
+    async def get_custumers_info(self, async_client: AsyncClient, custumerIds: list[str], requests: list[str] = ['portin', 'portout', 'hostorial']) -> list[Response]:
+        requests = [self.get_custumer_info(
+            async_client, custumer, requests) for custumer in custumerIds]
+        return await asyncio.gather(*requests)
         pass
-        
-    def __build_custumer_payload(self, requests:list[str]= ['portin','portout','hostorial'])->str:
-        pass
+
+    def __build_custumer_payload(self, requests: list[str] = ['portin', 'portout', 'hostorial']) -> str:
+        requests_header = {
+            "requests": [],
+            "groupTimeout": "100000",
+            "c": "com.netcracker.platform.ui.plugins.gwt.common.shared.transport.widget.request.WidgetTransportGroupRequest"
+        }
+
+        request_catag = {
+            'portin': {
+                'cosreDsId': "9145243138113684909",
+                'containerId': '9145244403913687320',
+                'title': 'Solicitudes+de+Port-In',
+            },
+            'portout': {
+                'cosreDsId': "9150197455813146054",
+                'containerId': '9150197330013146017',
+                'title': 'Solicitudes+de+Port-Out',
+            },
+            'hist': {
+                'cosreDsId': "9157884230013223743",
+                'containerId': '9157884230013223760',
+                'title': 'Cambiar+Historial',
+            }
+        }
+
+        request = {'path': '/rest/UIPlugins/Ctrl/refresh',
+                   'body': {'dsName': 'DynamicPlatformTableCtrlDS',
+                            'objectPKs': ['java.math.BigInteger:{mot:2091641841013994133;mas:1;content:@CUSTUMERID@}'],
+                            'requestParams': {'checkBoxEnabled': 'false',
+                                              'customizationEnabled': 'false',
+                                              'mask_field_resized': 'true',
+                                              'editable': False,
+                                              'modal_grid_panel': 'true',
+                                              'mergedWidgetContainerId': None,
+                                              'gwtClass': 'com.netcracker.platform.ui.plugins.gwt.tablectrl.client.TableCtrl',
+                                              'coreDsId': '9145553384013665894',
+                                              'pageSize': '10',
+                                              'userViewHeaderEnabled': 'true',
+                                              'title': 'Entregables',
+                                              'pagingEnabled': 'true',
+                                              'customizationColumnNumberEnabled': 'true',
+                                              'objectId': '@CUSTUMERID@',
+                                              'dashboardID': '9139371752413211527',
+                                              'widgetId': '9134213657313166121',
+                                              'drawFakeCheckboxes': 'false',
+                                              'initializationParams': {'customizeReferenceFields': 'true',
+                                                                       'dashboardID': '9139371752413211527',
+                                                                       'referenceCustomizer': 'boardReferenceCustomizer',
+                                                                       'ncObjectID': '@CUSTUMERID@',
+                                                                       'csrdContext': {'ctx_csrd_section_id': 'salesOrders',
+                                                                                       'ctx_csrd_page_token': '!board',
+                                                                                       'ctx_csrd_page_params': {'customerId': '@CUSTUMERID@',
+                                                                                                                'sectionId': 'salesOrders'},
+                                                                                       'ctx_cihm_customer_id': '@CUSTUMERID@',
+                                                                                       'ctx_csrd_filter_context_id': '1xidnkkooi0bc',
+                                                                                       'ctx_csrd_page_host': '/csrdesktop/csrdesktop.jsp',
+                                                                                       'ctx_cihm_billing_account_id': '9149095194313394712'},
+                                                                       'showOperationsButton': 'true',
+                                                                       'drawFakeCheckboxes': 'false',
+                                                                       'objectPK': 'java.math.BigInteger:{mot:0;mas:1;content:@CUSTUMERID@}'},
+                                              'pageContext': [{'name': 'cfadmin',
+                                                               'value': 'sLsl-gNu1-xNff-mnEt-lHDr-mjlQ'}],
+                                              'widgetContainerId': '9145554285013667098',
+                                              'hideEditableButton': False,
+                                              'urlParams': {}},
+                            'requestTimeout': {'c': 'com.netcracker.platform.ui.plugins.gwt.model.shared.RequestTimeout',
+                                               'timeoutId': 'AxRtt193efLY1oaUZyGxcIVmizX5AY9MxaGytzQ39hAsk0ghfn_9145554285013667098',
+                                               'v': '20000'},
+                            'pagingDescriptor': {'c': 'com.netcracker.platform.ui.plugins.gwt.tablectrl.shared.transport.RequestPagingDescriptor',
+                                                 'from': 0,
+                                                 'count': 10,
+                                                 'fullscreenCount': 0},
+                            'filteringDescriptor': {'c': 'com.netcracker.platform.ui.plugins.gwt.tablectrl.shared.transport.filtering.FilteringDescriptor',
+                                                    'filters': {}},
+                            'c': 'com.netcracker.platform.ui.plugins.rest.service.transport.request.TableCtrlRequest'},
+                   'c': 'com.netcracker.platform.ui.plugins.gwt.common.shared.transport.widget.request.WidgetTransportRequest'}
+
+        requests_params = []
+        for param in requests:
+            param_copy = copy.deepcopy(request)
+            if param == 'portin':
+                param_copy['body']['requestParams']['coreDsId'] = request_catag['portin']['cosreDsId']
+                param_copy['body']['requestParams']['widgetContainerId'] = request_catag['portin']['containerId']
+                param_copy['body']['requestParams']['title'] = request_catag['portin']['title']
+            if param == 'portout':
+                param_copy['body']['requestParams']['coreDsId'] = request_catag['portout']['cosreDsId']
+                param_copy['body']['requestParams']['widgetContainerId'] = request_catag['portout']['containerId']
+                param_copy['body']['requestParams']['title'] = request_catag['portout']['title']
+            if param == 'hist':
+                param_copy['body']['requestParams']['coreDsId'] = request_catag['hist']['cosreDsId']
+                param_copy['body']['requestParams']['widgetContainerId'] = request_catag['hist']['containerId']
+                param_copy['body']['requestParams']['requestGrouping_name'] = 'changeHistory'
+                param_copy['body']['requestParams']['title'] = request_catag['hist']['title']
+
+            requests_params.append(param_copy)
+
+        requests_header['requests'] = requests_params
+        return encode_payload(requests_header)
 
     def _build_payload(
         self, payloadcopy: dict,
