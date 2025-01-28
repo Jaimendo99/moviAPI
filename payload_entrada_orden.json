@@ -1,0 +1,233 @@
+{
+    "requests": [
+        {
+            "path": "/rest/UIPlugins/Ctrl/refresh",
+            "body": {
+                "dsName": "TableCtrlDynamicFetchPlanDS",
+                "objectPKs": [
+                    "java.math.BigInteger:{mot:2091641841013994133;mas:1;content:@CUSTUMERID@}"
+                ],
+                "requestParams": {
+                    "checkBoxEnabled": "false",
+                    "customizationEnabled": "false",
+                    "mask_field_resized": "true",
+                    "editable": false,
+                    "modal_grid_panel": "true",
+                    "mergedWidgetContainerId": null,
+                    "gwtClass": "com.netcracker.platform.ui.plugins.gwt.tablectrl.client.TableCtrl",
+                    "coreDsId": "9150197455813146054",
+                    "pageSize": "10",
+                    "userViewHeaderEnabled": "true",
+                    "title": "Solicitudes+de+Port-Out",
+                    "pagingEnabled": "true",
+                    "customizationColumnNumberEnabled": "true",
+                    "objectId": "@CUSTUMERID@",
+                    "dashboardID": "9139371752413211527",
+                    "widgetId": "9134213657313166121",
+                    "drawFakeCheckboxes": "false",
+                    "initializationParams": {
+                        "customizeReferenceFields": "true",
+                        "dashboardID": "9139371752413211527",
+                        "referenceCustomizer": "boardReferenceCustomizer",
+                        "ncObjectID": "@CUSTUMERID@",
+                        "csrdContext": {
+                            "ctx_csrd_section_id": "salesOrders",
+                            "ctx_csrd_page_token": "!board",
+                            "ctx_csrd_page_params": {
+                                "customerId": "@CUSTUMERID@",
+                                "sectionId": "salesOrders"
+                            },
+                            "ctx_cihm_customer_id": "@CUSTUMERID@",
+                            "ctx_csrd_filter_context_id": "1xidnkkooi0bc",
+                            "ctx_csrd_page_host": "/csrdesktop/csrdesktop.jsp",
+                            "ctx_cihm_billing_account_id": "9149095194313394712"
+                        },
+                        "showOperationsButton": "true",
+                        "drawFakeCheckboxes": "false",
+                        "objectPK": "java.math.BigInteger:{mot:0;mas:1;content:@CUSTUMERID@}"
+                    },
+                    "pageContext": [
+                        {
+                            "name": "cfadmin",
+                            "value": "sLsl-gNu1-xNff-mnEt-lHDr-mjlQ"
+                        }
+                    ],
+                    "widgetContainerId": "9150197330013146017",
+                    "hideEditableButton": false,
+                    "urlParams": {}
+                },
+                "requestTimeout": {
+                    "c": "com.netcracker.platform.ui.plugins.gwt.model.shared.RequestTimeout",
+                    "timeoutId": "AxRtt193efLY1oaUZyGxcIVmizX5AY9MxaGytzQ39hAsk0ghfn_9150197330013146017",
+                    "v": "20000"
+                },
+                "pagingDescriptor": {
+                    "c": "com.netcracker.platform.ui.plugins.gwt.tablectrl.shared.transport.RequestPagingDescriptor",
+                    "from": 0,
+                    "count": 10,
+                    "fullscreenCount": 0
+                },
+                "filteringDescriptor": {
+                    "c": "com.netcracker.platform.ui.plugins.gwt.tablectrl.shared.transport.filtering.FilteringDescriptor",
+                    "filters": {}
+                },
+                "c": "com.netcracker.platform.ui.plugins.rest.service.transport.request.TableCtrlRequest"
+            },
+            "c": "com.netcracker.platform.ui.plugins.gwt.common.shared.transport.widget.request.WidgetTransportRequest"
+        },
+        {
+            "path": "/rest/UIPlugins/Ctrl/refresh",
+            "body": {
+                "dsName": "TableCtrlDynamicFetchPlanDS",
+                "objectPKs": [
+                    "java.math.BigInteger:{mot:2091641841013994133;mas:1;content:@CUSTUMERID@}"
+                ],
+                "requestParams": {
+                    "checkBoxEnabled": "false",
+                    "customizationEnabled": "false",
+                    "mask_field_resized": "true",
+                    "editable": false,
+                    "modal_grid_panel": "true",
+                    "mergedWidgetContainerId": null,
+                    "gwtClass": "com.netcracker.platform.ui.plugins.gwt.tablectrl.client.TableCtrl",
+                    "coreDsId": "9145243138113684909",
+                    "pageSize": "10",
+                    "userViewHeaderEnabled": "true",
+                    "title": "Solicitudes+de+Port-In",
+                    "pagingEnabled": "true",
+                    "customizationColumnNumberEnabled": "true",
+                    "objectId": "@CUSTUMERID@",
+                    "dashboardID": "9139371752413211527",
+                    "widgetId": "9134213657313166121",
+                    "drawFakeCheckboxes": "false",
+                    "initializationParams": {
+                        "customizeReferenceFields": "true",
+                        "dashboardID": "9139371752413211527",
+                        "referenceCustomizer": "boardReferenceCustomizer",
+                        "ncObjectID": "@CUSTUMERID@",
+                        "csrdContext": {
+                            "ctx_csrd_section_id": "salesOrders",
+                            "ctx_csrd_page_token": "!board",
+                            "ctx_csrd_page_params": {
+                                "customerId": "@CUSTUMERID@",
+                                "sectionId": "salesOrders"
+                            },
+                            "ctx_cihm_customer_id": "@CUSTUMERID@",
+                            "ctx_csrd_filter_context_id": "1xidnkkooi0bc",
+                            "ctx_csrd_page_host": "/csrdesktop/csrdesktop.jsp",
+                            "ctx_cihm_billing_account_id": "9149095194313394712"
+                        },
+                        "showOperationsButton": "true",
+                        "drawFakeCheckboxes": "false",
+                        "objectPK": "java.math.BigInteger:{mot:0;mas:1;content:@CUSTUMERID@}"
+                    },
+                    "pageContext": [
+                        {
+                            "name": "cfadmin",
+                            "value": "sLsl-gNu1-xNff-mnEt-lHDr-mjlQ"
+                        }
+                    ],
+                    "widgetContainerId": "9145244403913687320",
+                    "hideEditableButton": false,
+                    "urlParams": {}
+                },
+                "requestTimeout": {
+                    "c": "com.netcracker.platform.ui.plugins.gwt.model.shared.RequestTimeout",
+                    "timeoutId": "AxRtt193efLY1oaUZyGxcIVmizX5AY9MxaGytzQ39hAsk0ghfn_9145244403913687320",
+                    "v": "20000"
+                },
+                "pagingDescriptor": {
+                    "c": "com.netcracker.platform.ui.plugins.gwt.tablectrl.shared.transport.RequestPagingDescriptor",
+                    "from": 0,
+                    "count": 10,
+                    "fullscreenCount": 0
+                },
+                "filteringDescriptor": {
+                    "c": "com.netcracker.platform.ui.plugins.gwt.tablectrl.shared.transport.filtering.FilteringDescriptor",
+                    "filters": {}
+                },
+                "c": "com.netcracker.platform.ui.plugins.rest.service.transport.request.TableCtrlRequest"
+            },
+            "c": "com.netcracker.platform.ui.plugins.gwt.common.shared.transport.widget.request.WidgetTransportRequest"
+        },
+        {
+            "path": "/rest/UIPlugins/Ctrl/refresh",
+            "body": {
+                "dsName": "TableCtrlDynamicFetchPlanDS",
+                "objectPKs": [
+                    "java.math.BigInteger:{mot:2091641841013994133;mas:1;content:@CUSTUMERID@}"
+                ],
+                "requestParams": {
+                    "checkBoxEnabled": "false",
+                    "customizationEnabled": "false",
+                    "mask_field_resized": "true",
+                    "editable": false,
+                    "modal_grid_panel": "true",
+                    "mergedWidgetContainerId": null,
+                    "gwtClass": "com.netcracker.platform.ui.plugins.gwt.tablectrl.client.TableCtrl",
+                    "hideEditableButton": true,
+                    "pageSize": "10",
+                    "coreDsId": "9157884230013223743",
+                    "userViewHeaderEnabled": "true",
+                    "title": "Cambiar+Historial",
+                    "requestGrouping": "true",
+                    "pagingEnabled": "true",
+                    "customizationColumnNumberEnabled": "true",
+                    "requestGrouping_name": "changeHistory",
+                    "objectId": "@CUSTUMERID@",
+                    "dashboardID": "9139371752413211527",
+                    "widgetId": "9147845456013927759",
+                    "drawFakeCheckboxes": "false",
+                    "initializationParams": {
+                        "customizeReferenceFields": "true",
+                        "dashboardID": "9139371752413211527",
+                        "referenceCustomizer": "boardReferenceCustomizer",
+                        "ncObjectID": "@CUSTUMERID@",
+                        "csrdContext": {
+                            "ctx_csrd_section_id": "salesOrders",
+                            "ctx_csrd_page_token": "!board",
+                            "ctx_csrd_page_params": {
+                                "customerId": "@CUSTUMERID@",
+                                "sectionId": "salesOrders"
+                            },
+                            "ctx_cihm_customer_id": "@CUSTUMERID@",
+                            "ctx_csrd_filter_context_id": "1xidnkkooi0bc",
+                            "ctx_csrd_page_host": "/csrdesktop/csrdesktop.jsp",
+                            "ctx_cihm_billing_account_id": "9149095194313394712"
+                        },
+                        "showOperationsButton": "true",
+                        "drawFakeCheckboxes": "false",
+                        "objectPK": "java.math.BigInteger:{mot:0;mas:1;content:@CUSTUMERID@}"
+                    },
+                    "pageContext": [
+                        {
+                            "name": "cfadmin",
+                            "value": "sLsl-gNu1-xNff-mnEt-lHDr-mjlQ"
+                        }
+                    ],
+                    "widgetContainerId": "9157884230013223760",
+                    "urlParams": {}
+                },
+                "requestTimeout": {
+                    "c": "com.netcracker.platform.ui.plugins.gwt.model.shared.RequestTimeout",
+                    "timeoutId": "AxRtt193efLY1oaUZyGxcIVmizX5AY9MxaGytzQ39hAsk0ghfn_9157884230013223760",
+                    "v": "20000"
+                },
+                "pagingDescriptor": {
+                    "c": "com.netcracker.platform.ui.plugins.gwt.tablectrl.shared.transport.RequestPagingDescriptor",
+                    "from": 0,
+                    "count": 10,
+                    "fullscreenCount": 0
+                },
+                "filteringDescriptor": {
+                    "c": "com.netcracker.platform.ui.plugins.gwt.tablectrl.shared.transport.filtering.FilteringDescriptor",
+                    "filters": {}
+                },
+                "c": "com.netcracker.platform.ui.plugins.rest.service.transport.request.TableCtrlRequest"
+            },
+            "c": "com.netcracker.platform.ui.plugins.gwt.common.shared.transport.widget.request.WidgetTransportRequest"
+        }
+    ],
+    "groupTimeout": "100000",
+    "c": "com.netcracker.platform.ui.plugins.gwt.common.shared.transport.widget.request.WidgetTransportGroupRequest"
+}

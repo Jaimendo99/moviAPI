@@ -3,6 +3,7 @@ from httpx import AsyncClient, Response
 import asyncio
 import pickle
 import copy
+import json
 
 
 class MoviCookies:
@@ -94,7 +95,7 @@ class MovistarClient:
                     for custumer, context in zip(custumerId, contextId)]
         return await asyncio.gather(*requests)
 
-    async def get_custumer_info(self, async_client: AsyncClient, custumerId: str, requests: list[str] = ['portin', 'portout', 'hostorial']) -> Response:
+    async def get_custumer_info(self, async_client: AsyncClient, custumerId: str, requests: list[str] = ['portin', 'portout', 'hist']) -> Response:
         endpoint = 'rest/UIPlugins/WidgetRequestProcessor/process'
         headers = {
             'Cookie': self.cookies,
@@ -102,16 +103,17 @@ class MovistarClient:
         }
         payload = self.__build_custumer_payload(requests)
         custumer_payload = payload.replace('@CUSTUMERID@', custumerId)
+        custumer_payload_encode = encode_payload(json.loads(custumer_payload))
 
-        return await async_client.post(self.base_url + endpoint, headers=headers, data=custumer_payload)
+        return await async_client.post(self.base_url + endpoint, headers=headers, data=custumer_payload_encode)
 
-    async def get_custumers_info(self, async_client: AsyncClient, custumerIds: list[str], requests: list[str] = ['portin', 'portout', 'hostorial']) -> list[Response]:
+    async def get_custumers_info(self, async_client: AsyncClient, custumerIds: list[str], requests: list[str] = ['portin', 'portout', 'hist']) -> list[Response]:
         requests = [self.get_custumer_info(
             async_client, custumer, requests) for custumer in custumerIds]
         return await asyncio.gather(*requests)
-        pass
 
-    def __build_custumer_payload(self, requests: list[str] = ['portin', 'portout', 'hostorial']) -> str:
+    def __build_custumer_payload(self, requests: list[str] = ['portin', 'portout', 'hist']) -> str:
+
         requests_header = {
             "requests": [],
             "groupTimeout": "100000",
@@ -208,7 +210,9 @@ class MovistarClient:
             requests_params.append(param_copy)
 
         requests_header['requests'] = requests_params
-        return encode_payload(requests_header)
+
+    
+        return json.dumps(requests_header)
 
     def _build_payload(
         self, payloadcopy: dict,
